@@ -127,16 +127,42 @@ public class AddressBook {
                 break;
 
             case 4:
-                isAlive = false;
-                System.out.println("Exit.....");
-                break;
+            	if (contact.getFirst_name() == " " && contact.getLast_name() == " "
+                && contact.getAddress() == " " && contact.getCity() == " "
+                && contact.getState() == " " && contact.getZip() == 0
+                && contact.getPhone_number() == 0 && contact.getEmail() == " ") {
+            System.out.println("Address book is Already Empty.");
+            break;
+        } else {
+            System.out.println("Enter the name you want to update:- ");
+            String name = sc.nextLine();
+            if (name.equalsIgnoreCase(contact.getFirst_name())) {
+            	contact.setFirst_name(" ");
+            	contact.setLast_name(" ");
+            	contact.setAddress(" ");
+            	contact.setCity(" ");
+            	contact.setState(" ");
+            	contact.setZip(0);
+            	contact.setPhone_number(0);
+            	contact.setEmail(" ");
 
-            default:
-                System.out.println("You have entered wrong choice.");
-                isAlive = true;
-                break;
+                System.out.println("Contact is deleted.");
+            } else {
+                System.out.println("There is no contact with " + name + ".");
             }
         }
-        sc.close();
+        break;
+
+    case 5:
+        isAlive = false;
+        System.out.println("Exit.....");
+        break;
+
+    default:
+        System.out.println("You have entered wrong choice.");
+        break;
     }
+}
+sc.close();
+}
 }
