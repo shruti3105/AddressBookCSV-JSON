@@ -143,4 +143,9 @@ public class Contact {
 		
 	}
 
+	public void setPhoneNumber(int nextInt) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
