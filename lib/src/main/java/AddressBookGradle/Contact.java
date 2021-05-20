@@ -108,7 +108,7 @@ public class Contact {
 		return null;
 	}
 
-	public void setPhoneNumber(String next) {
+	public void setPhoneNumber(String string) {
 		// TODO Auto-generated method stub
 		
 	}
@@ -124,6 +124,21 @@ public class Contact {
 	}
 
 	public void setFirstName(String next) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public Object getLastName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public void setArea(String next) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void setpin(int nextInt) {
 		// TODO Auto-generated method stub
 		
 	}
