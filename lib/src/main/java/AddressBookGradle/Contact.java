@@ -26,7 +26,12 @@ public class Contact {
         this("", "", "", "", "", 0, 0, "");
     }
     
-    public void setFirst_name(String first_name) {
+    public Contact(String firstName, String lastName, String area, String city2, String state2, String zip2,
+			String phoneNumber, String email2) {
+		// TODO Auto-generated constructor stub
+	}
+
+	public void setFirst_name(String first_name) {
         this.first_name = first_name;
     }
 
@@ -97,5 +102,30 @@ public class Contact {
                 + " \t \nAddress:" + this.address + " \t \nCity:" + this.city + " \t \nState:" + this.state
                 + " \t \nZip:" + this.zip + " \t \nPhone Number:" + this.phone_number + " \t \nEmail:" + this.email;
     }
+
+	public Object getFirstName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public void setPhoneNumber(String next) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void setZip(String next) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void setLastName(String next) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void setFirstName(String next) {
+		// TODO Auto-generated method stub
+		
+	}
 
 }
