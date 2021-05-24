@@ -162,5 +162,36 @@ public class AddressBook {
             System.out.println("Want to Add More Address Book (y/n)");
             check = sc.next();
         }
+       
     }
+    public void CountByState(String state) {
+        int count = 0;
+        for(Map.Entry<String, AddressBook> entry: bookList.entrySet()){
+            for(int i=0;i<(entry.getValue()).contactList.size();i++)
+            {
+                Contact contact= entry.getValue().contactList.get(i);
+
+                if(state.equals(contact.getState()))
+                {
+                    count++;
+                }
+
+            }
+        }
+        System.out.println("Total Person Count in state "+state+": "+count);
+    }
+    public void CountByCity(String city) {
+        int count=0;
+        for(Map.Entry<String, AddressBook> entry: bookList.entrySet())
+        {
+            for(int i=0;i<(entry.getValue()).contactList.size();i++)
+            {
+                Contact d= (Contact)entry.getValue().contactList.get(i);
+
+                if(city.equals(d.getCity()))
+                {
+                    count++;
+                }
+
+            }
 }
