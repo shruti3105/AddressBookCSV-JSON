@@ -204,4 +204,39 @@ public class AddressBook {
             }
         }
     }
+            private void sortContactByZipCode() {
+        for (Map.Entry<String,AddressBook>entry:bookList.entrySet()){
+            AddressBook value = entry.getValue();
+            List<Contact> sortedList = value.contactList.stream().sorted(Comparator.comparing(Contact::getZip_code)).collect(Collectors.toList());
+
+            for(Contact contact:sortedList){
+                System.out.println("First Name: "+contact.getFirst_name());
+                System.out.println("Last Name: "+contact.getLast_name());
+            }
+        }
+    }
+
+    private void sortContactByState() {
+        for (Map.Entry<String,AddressBook>entry:bookList.entrySet()){
+            AddressBook value = entry.getValue();
+            List<Contact> sortedList = value.contactList.stream().sorted(Comparator.comparing(Contact::getState)).collect(Collectors.toList());
+
+            for(Contact contact:sortedList){
+                System.out.println("First Name: "+contact.getFirst_name());
+                System.out.println("Last Name: "+contact.getLast_name());
+            }
+        }
+    }
+
+    private void sortContactByCity() {
+        for (Map.Entry<String,AddressBook>entry:bookList.entrySet()){
+            AddressBook value = entry.getValue();
+            List<Contact> sortedList = value.contactList.stream().sorted(Comparator.comparing(Contact::getCity)).collect(Collectors.toList());
+
+            for(Contact contact:sortedList){
+                System.out.println("First Name: "+contact.getFirst_name());
+                System.out.println("Last Name: "+contact.getLast_name());
+            }
+        }
+    }
 }
