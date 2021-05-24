@@ -239,4 +239,32 @@ public class AddressBook {
             }
         }
     }
+            public void readAddressBook(String AddressBookName) throws IOException {
+        Path filePath = Paths.get("addressBook.txt");
+        try {
+            System.out.println("The contacts in the address book are : ");
+            Files.lines(filePath).map(line -> line.trim()).forEach(line -> System.out.println(line));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void writeAddressBook(String AddressBookName) throws IOException {
+        Path filepath = Paths.get("addressBook.txt");
+        if (Files.notExists(filepath))
+            Files.createFile(filepath);
+        StringBuffer ContactBuffer = new StringBuffer();
+        contactList.forEach(book -> {
+            String bookDataString = book.toString().concat("\n");
+            ContactBuffer.append(bookDataString);
+        });
+
+        try {
+            Files.write(filepath, ContactBuffer.toString().getBytes());
+            System.out.println("Details Successfully added to address book file");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
 }
