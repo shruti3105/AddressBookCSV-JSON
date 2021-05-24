@@ -192,6 +192,16 @@ public class AddressBook {
                 {
                     count++;
                 }
-
             }
+            private void sortContactByName() {
+        for (Map.Entry<String,AddressBook>entry:bookList.entrySet()){
+            AddressBook value = entry.getValue();
+            List<Contact> sortedList = value.contactList.stream().sorted(Comparator.comparing(Contact::getFirst_name)).collect(Collectors.toList());
+
+            for(Contact contact:sortedList){
+                System.out.println("First Name: "+contact.getFirst_name());
+                System.out.println("Last Name: "+contact.getLast_name());
+            }
+        }
+    }
 }
