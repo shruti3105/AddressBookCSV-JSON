@@ -5,7 +5,6 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class Connection {
 	private static Connection Connection = null;
 	List<AddressBook> addressBookList = new ArrayList<>();
@@ -27,7 +26,7 @@ public class Connection {
     }
     public List<AddressBook> readData() throws AddressBookException {
         addressBookList = new ArrayList<AddressBook>();
-        String sql = "SELECT * FROM addressbook; ";
+        String sql = "SELECT * FROM address_book; ";
         return this.getDataFromDataBase(sql);
     }
 
@@ -37,7 +36,7 @@ public class Connection {
             Connection connection = this.getConnection();
             Statement statement = ((java.sql.Connection) connection).createStatement();
             ResultSet resultSet = statement.executeQuery(sql);
-            addressBookList = this.getAddressBookData(resultSet);
+            addressBookList = this.getAddressBookDetails(resultSet);
         } catch (SQLException e) {
             e.printStackTrace();
             throw new AddressBookException(AddressBookException.AddressBookExceptionType.READ_DATA_EXCEPTION,
@@ -46,7 +45,7 @@ public class Connection {
         return addressBookList;
     }
 
-    private List<AddressBook> getAddressBookData(ResultSet resultSet) throws AddressBookException {
+    private List<AddressBook> getAddressBookDetails(ResultSet resultSet) throws AddressBookException {
         addressBookList = new ArrayList<AddressBook>();
         try {
             while (resultSet.next()) {
@@ -72,7 +71,7 @@ public class Connection {
         try {
             recordDataStatement.setString(1, firstName);
             ResultSet resultSet = recordDataStatement.executeQuery();
-            record = this.getAddressBookData(resultSet);
+            record = this.getAddressBookDetails(resultSet);
         } catch (SQLException e) {
             e.printStackTrace();
             throw new AddressBookException(AddressBookException.AddressBookExceptionType.UPDATION_DATA_EXCEPTION,
@@ -84,7 +83,7 @@ public class Connection {
     private void preparedStatementForRecord() {
         try {
             Connection connection = this.getConnection();
-            String query = "SELECT * FROM addressbook WHERE First_Name = ?";
+            String query = "SELECT * FROM address_book WHERE First_Name = ?";
             recordDataStatement = connection.prepareStatement(query);
         } catch (SQLException exception) {
             exception.printStackTrace();
@@ -96,7 +95,7 @@ public class Connection {
 		return null;
 	}
 	public int updateDataUsingPreparedStatement(String firstName, String address) {
-        String query = "UPDATE addressbook SET Address = ? WHERE First_Name = ?";
+        String query = "UPDATE address_book SET Address = ? WHERE First_Name = ?";
         try (Connection connection = this.getConnection()) {
             PreparedStatement preparedStatementUpdate = connection.prepareStatement(query);
             preparedStatementUpdate.setString(1, address);

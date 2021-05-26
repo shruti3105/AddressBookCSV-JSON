@@ -1,47 +1,65 @@
 package AddressBookGradle;
 
-import java.util.Arrays;
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Arrays;
 
 public class AddressBookService {
+	public enum IOService {
+		DB_IO
+	}
 
-    List<AddressBook> addressBookList;
-    private static Connection Connection;
-    private Arrays record;
+	private List<AddressBookDetails> addressBookList;
+	private static AddressBookDBService addressBookDBService;
 
-    public AddressBookService() {
-    	Connection = Connection.getInstance();
-    }
+	public AddressBookService() {
+		addressBookDBService = AddressBookDBService.getInstance();
+	}
 
-    public List<AddressBook> readAddressBookData() throws AddressBookException {
+	public List<AddressBookDetails> readAddressBookDetails(IOService ioservice) throws AddressBookException {
+		if (ioservice.equals(IOService.DB_IO))
+			return this.addressBookList = addressBookDBService.readData();
+		return this.addressBookList;
+	}
 
-        return this.addressBookList = Connection.readData();
-    }
-    public void updateEmployeeSalary(String firstName, String address) throws AddressBookException{
-        int result = new Connection().updateDataUsingPreparedStatement(firstName,address);
-        if (result == 0)
-            return;
-        AddressBook addressBook = this.getAddressBookData(firstName);
-        if (addressBook != null)
-            addressBook.setAddress(address);
-    }
+	public void updateRecord(String firstname, String address) throws AddressBookException {
+		int result = addressBookDBService.updateAddressBookDetails(firstname, address);
+		if (result == 0)
+			return;
+		AddressBookDetails addressBookDetails = this.getAddressBookDetails(firstname);
+		if (addressBookDetails != null)
+			addressBookDetails.address = address;
+	}
 
-    private AddressBook getAddressBookData(String firstName) throws AddressBookException {
-        addressBookList = this.readAddressBookData();
-        return this.addressBookList.stream()
-                .filter(addressBook -> addressBook.getFirstName().equals(firstName))
-                .findFirst()
-                .orElse(null);
-    }
+	public boolean checkUpdatedRecordSyncWithDatabase(String firstname) throws AddressBookException {
+		try {
+			List<AddressBookDetails> addressBookDetails = addressBookDBService.getAddressBookDetails(firstname);
+			return addressBookDetails.get(0).equals(getAddressBookDetails(firstname));
+		} catch (AddressBookException e) {
+			throw new AddressBookException(e.getMessage(), AddressBookException.ExceptionType.DATABASE_EXCEPTION);
+		}
+	}
 
-    public boolean checkEmployeePayrollInSyncWithDB(String firstName) throws AddressBookException {
-        List<AddressBook> addressBooks = Connection.getRecordDataByName(firstName);
+	private AddressBookDetails getAddressBooketails(String firstname) {
+		return this.addressBookList.stream().filter(addressBookItem -> addressBookItem.firstName.equals(firstname))
+				.findFirst().orElse(null);
+	}
 
-        return addressBooks.get(0).equals(getAddressBookData(firstName));
-    }
-    public List<AddressBook> getRecordAddedInDateRange(String date1, String date2) throws AddressBookException {
-        List<AddressBook> addressBooks = Connection.getRecordsAddedInGivenDateRange(date1, date2);
-        return addressBooks;
-    }
+	public List<AddressBookDetails> readAddressBookDetails(IOService ioService, String start, String end)
+			throws AddressBookException {
+		try {
+			LocalDate startLocalDate = LocalDate.parse(start);
+			LocalDate endLocalDate = LocalDate.parse(end);
+			if (ioService.equals(IOService.DB_IO))
+				return addressBookDBService.readData(startLocalDate, endLocalDate);
+			return this.addressBookList;
+		} catch (AddressBookException e) {
+			throw new AddressBookException(e.getMessage(), AddressBookException.ExceptionType.DATABASE_EXCEPTION);
+		}
+	}
+
+	public int readAddressBookDetails(String function, String city) throws AddressBookException {
+		return addressBookDBService.readDataBasedOnCity(function, city);
+	}
 
 }
