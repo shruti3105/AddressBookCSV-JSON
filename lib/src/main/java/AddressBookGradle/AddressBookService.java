@@ -39,5 +39,9 @@ public class AddressBookService {
 
         return addressBooks.get(0).equals(getAddressBookData(firstName));
     }
+    public List<AddressBook> getRecordAddedInDateRange(String date1, String date2) throws AddressBookException {
+        List<AddressBook> addressBooks = Connection.getRecordsAddedInGivenDateRange(date1, date2);
+        return addressBooks;
+    }
 
 }

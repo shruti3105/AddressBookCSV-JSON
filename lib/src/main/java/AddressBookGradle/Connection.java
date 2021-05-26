@@ -107,4 +107,8 @@ public class Connection {
         }
         return 0;
     }
+	public List<AddressBook> getRecordsAddedInGivenDateRange(String date1, String date2) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

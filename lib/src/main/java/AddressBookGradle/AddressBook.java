@@ -2,10 +2,10 @@ package AddressBookGradle;
 
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.time.LocalDate;
 import java.util.*;
 
 public class AddressBook {
-
 	public String firstName ;
     private String lastName;
     private String address;
@@ -13,6 +13,7 @@ public class AddressBook {
     private String state;
     private String phoneNo;
     private String email;
+    public LocalDate startDate;
     public  String getFirstName() {
         return firstName;
     }
@@ -26,6 +27,7 @@ public class AddressBook {
         this.state = state;
         this.phoneNo = phoneNo;
         this.email = email;
+        this.startDate = startDate;
 
 
     }
@@ -91,5 +93,4 @@ public class AddressBook {
         if (o == null || getClass() != o.getClass()) return false;
         AddressBook that = (AddressBook) o;
         return Objects.equals(firstName, that.firstName) && Objects.equals(lastName, that.lastName) && Objects.equals(address, that.address) && Objects.equals(city, that.city) && Objects.equals(state, that.state) && Objects.equals(phoneNo, that.phoneNo) && Objects.equals(email, that.email);
-    }
-}
+    }}
