@@ -11,7 +11,7 @@ public class AddressBookDetails {
     public int pin, phoneNumber;
     public static int indexNum;
 
-    public AddressBookDetails(String addressBookName) {
+    public AddressBookDetails(String addressBookName, String lastName2, String address, String city2, String state2, String phoneNo, String email2) {
         this.addressBookName = addressBookName;
     }
 
