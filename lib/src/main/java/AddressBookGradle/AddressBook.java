@@ -146,21 +146,6 @@ public class AddressBook {
 
     public static void main(String[] args) {
         System.out.println("Welcome to Address Book Program");
-        String check = "Y";
-        while ((check.equals("Y")) || (check.equals("y"))) {
-            addAdressBookDetails();
-            option();
-            System.out.println("Do You Want to Search Contacts By Certain Details Like by City, State, etc?");
-            System.out.println("Do You Want to Search or View Contacts By Certain Details Like by City, State, etc?");
-            System.out.println("Press y if You Want to Search");
-            String num = sc.next();
-            if (num.equals("Y") || num.equals("y")) {
-                search();
-            } else {
-                System.out.println("You Can Proceed Further");
-            }
-            System.out.println("Want to Add More Address Book (y/n)");
-            check = sc.next();
+        
         }
     }
-}
