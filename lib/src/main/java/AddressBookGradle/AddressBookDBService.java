@@ -8,7 +8,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class AddressBookDBService {
 
@@ -77,7 +79,7 @@ public class AddressBookDBService {
 				String zip = resultSet.getString("Zip");
 				String phoneNo = resultSet.getString("PhoneNumber");
 				String email = resultSet.getString("Email");
-				addressBookData.add(new AddressBookDetails(firstName, lastName, address, city, state, phoneNo, email));
+				addressBookDetails.add(new AddressBookDetails(firstName, lastName, address, city, state, phoneNo, email));
 			}
 		} catch (SQLException e) {
 			throw new AddressBookException(e.getMessage(), AddressBookException.ExceptionType.DATABASE_EXCEPTION);
@@ -106,7 +108,7 @@ public class AddressBookDBService {
 		} catch (SQLException e) {
 			throw new AddressBookException(e.getMessage(), AddressBookException.ExceptionType.CONNECTION_FAILED);
 		}
-		System.out.println(addressBookDetials);
+		System.out.println(addressBookDetails);
 		return addressBookDetails;
 	}
 
@@ -140,13 +142,13 @@ public class AddressBookDBService {
 		}
 		return count;
 	}
-	public AddressBookDetails addNewContact(String firstName, String lastName, String start, String address, String city, String state,
+	public AddressBookDetails addNewContact(String firstName, String lastName, String start, Class<? extends AddressBookDetails> class1, String city, String state,
 			String zip, String phoneNo, String email) throws AddressBookException {
 		int id = -1;
 		AddressBookDetails addressBookDetails = null;
 		String query = String.format(
 				"insert into address_book(FirstName, LastName, Date, Address, City, State, Zip, PhoneNo, Email) values ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s','%s')",
-				firstName, lastName, start, address, city, state, zip, phoneNo, email);
+				firstName, lastName, start, class1, city, state, zip, phoneNo, email);
 		try (Connection connection = this.getConnection()) {
 			Statement statement = connection.createStatement();
 			int rowChanged = statement.executeUpdate(query, statement.RETURN_GENERATED_KEYS);
@@ -155,11 +157,38 @@ public class AddressBookDBService {
 				if (resultSet.next())
 					id = resultSet.getInt(1);
 			}
-			addressBookDetails = new AddressBookDetails(firstName, lastName, start, address, city, state, zip);
+			addressBookDetails = new AddressBookDetails(firstName, lastName, start, class1, city, state, zip);
 		} catch (SQLException e) {
 			throw new AddressBookException(e.getMessage(), AddressBookException.ExceptionType.DATABASE_EXCEPTION);
 		}
 		return addressBookDetails;
+	}
+	public void addMultipleContactsToDBUsingThread(List<AddressBookDetails> record) {
+		Map<Integer, Boolean> addressAdditionStatus = new HashMap<Integer, Boolean>();
+		record.forEach(addressbookdetails -> {
+			Runnable task = () -> {
+				addressAdditionStatus.put(addressbookdetails.hashCode(), false);
+				System.out.println("Contact Being Added:" + Thread.currentThread().getName());
+				try {
+					this.addNewContact(addressbookdetails.getFirstName(), addressbookdetails.getLastName(),
+							addressbookdetails.getAddress(), addressbookdetails.getClass(), addressbookdetails.getDate(),
+							addressbookdetails.getZip(), addressbookdetails.getPhoneNo(), addressbookdetails.getEmail(),
+							addressbookdetails.getDate());
+				} catch (AddressBookException e) {
+					e.printStackTrace();
+				}
+				addressAdditionStatus.put(addressbookdetails.hashCode(), true);
+				System.out.println("Contact Added:" + Thread.currentThread().getName());
+			};
+			Thread thread = new Thread(task, addressbookdetails.getFirstName());
+			thread.start();
+		});
+		while (addressAdditionStatus.containsValue(false)) {
+			try {
+				Thread.sleep(100);
+			} catch (InterruptedException e) {
+			}
+		}
 	}
 
 

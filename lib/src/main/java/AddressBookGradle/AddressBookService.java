@@ -70,6 +70,7 @@ public class AddressBookService {
 		String query = String.format(
 				"insert into addressBook(FirstName, LastName, Date, Address, City, State, Zip, PhoneNo, Email) values ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s','%s')",
 				firstName, lastName, start, address, city, state, zip, phoneNo, email);
+		AddressBookDetails addressBookDetails;
 		try (Connection connection = this.getConnection()) {
 			Statement statement = connection.createStatement();
 			int rowChanged = statement.executeUpdate(query, statement.RETURN_GENERATED_KEYS);
@@ -83,6 +84,14 @@ public class AddressBookService {
 			throw new AddressBookException(e.getMessage(), AddressBookException.ExceptionType.DATABASE_EXCEPTION);
 		}
 		return addressBookDetails;
+	}
+
+	public List<AddressBook> getRecordAddedInDateRange(String string, String string2) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	public void addMultipleContactsToDBUsingThreads(List<AddressBookDetails> record) {
+		addressBookDBService.addMultipleContactsToDBUsingThread(record);
 	}
 
 

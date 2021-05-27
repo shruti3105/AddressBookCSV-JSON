@@ -117,4 +117,39 @@ public class AddressBookDetails {
         return addressBookName;
     }
 
+	public String getDate() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public String getZip() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public String getAddress() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public String getPhoneNo() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public String getLastName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public String getEmail() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public String getFirstName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
