@@ -1,5 +1,7 @@
 package AddressBookGradle;
 
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Arrays;
@@ -61,5 +63,27 @@ public class AddressBookService {
 	public int readAddressBookDetails(String function, String city) throws AddressBookException {
 		return addressBookDBService.readDataBasedOnCity(function, city);
 	}
+	public AddressBookDetails addNewContact(String firstName, String lastName, String start, String address, String city, String state,
+			String zip, String phoneNo, String email) throws AddressBookException {
+		int id = -1;
+		AddressBookDetails addressBookData = null;
+		String query = String.format(
+				"insert into addressBook(FirstName, LastName, Date, Address, City, State, Zip, PhoneNo, Email) values ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s','%s')",
+				firstName, lastName, start, address, city, state, zip, phoneNo, email);
+		try (Connection connection = this.getConnection()) {
+			Statement statement = connection.createStatement();
+			int rowChanged = statement.executeUpdate(query, statement.RETURN_GENERATED_KEYS);
+			if (rowChanged == 1) {
+				ResultSet resultSet = statement.getGeneratedKeys();
+				if (resultSet.next())
+					id = resultSet.getInt(1);
+			}
+			addressBookDetails = new AddressBookDetails(firstName, lastName, start, address, city, state, zip);
+		} catch (SQLException e) {
+			throw new AddressBookException(e.getMessage(), AddressBookException.ExceptionType.DATABASE_EXCEPTION);
+		}
+		return addressBookDetails;
+	}
+
 
 }
